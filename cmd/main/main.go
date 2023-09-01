@@ -1,14 +1,17 @@
 package main
 
 import (
-	"backend/application/routes"
+	"backend/application/config"
+	"backend/application/route"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
 	e := echo.New()
 
-	routes.Routes(e)
+	config.ConfEnv()
 
-	e.Logger.Fatal(e.Start(":"))
+	route.Router(e)
+
+	e.Logger.Fatal(e.Start(":" + config.GetPort()))
 }
