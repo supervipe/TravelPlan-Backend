@@ -7,10 +7,9 @@ import (
 )
 
 func main() {
-	e := echo.New()
-
 	config.ConfEnv()
 
+	e := echo.New()
 	route.Router(e)
 
 	e.Logger.Fatal(e.Start(":" + config.GetPort()))

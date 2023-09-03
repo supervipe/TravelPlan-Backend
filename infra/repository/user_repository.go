@@ -12,8 +12,17 @@ type UserRepository interface {
 type userRepository struct {
 }
 
+func UserRepositoryConstructor() UserRepository {
+	return &userRepository{}
+}
+
 func (repository *userRepository) FindById(id string) (*models.User, error) {
-	return nil, nil
+	return &models.User{
+		Id:       "1",
+		Name:     "John Doe",
+		Email:    "jonhdoe@email.com",
+		Password: "123456",
+	}, nil
 }
 
 func (repository *userRepository) Create(user models.User) (*models.User, error) {
