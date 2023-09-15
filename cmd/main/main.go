@@ -8,6 +8,7 @@ import (
 
 func main() {
 	config.ConfEnv()
+	config.NewDB()
 
 	e := echo.New()
 	route.Router(e)
