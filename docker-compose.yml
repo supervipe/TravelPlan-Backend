@@ -13,7 +13,7 @@ services:
       POSTGRES_DB: postgres
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ./docker-init.sql:/docker-entrypoint-initdb.d/docker-init.sql
+#      - ./docker-init.sql:/docker-entrypoint-initdb.d/docker-init.sql
 
   pgadmin:
     image: dpage/pgadmin4

@@ -1,9 +1,12 @@
 package repository
 
-import "backend/core/domain/models"
+import (
+	"backend/application/config"
+	"backend/core/domain/models"
+)
 
 type UserRepository interface {
-	FindById(id string) (*models.User, error)
+	FindById(id uint) (*models.User, error)
 	Create(user models.User) (*models.User, error)
 	Update(user models.User) (*models.User, error)
 	Delete(id string) error
@@ -16,17 +19,24 @@ func UserRepositoryConstructor() UserRepository {
 	return &userRepository{}
 }
 
-func (repository *userRepository) FindById(id string) (*models.User, error) {
-	return &models.User{
-		Id:       "1",
-		Name:     "John Doe",
-		Email:    "jonhdoe@email.com",
-		Password: "123456",
-	}, nil
+func (repository *userRepository) FindById(id uint) (*models.User, error) {
+	db := config.GetDB()
+	user := models.User{}
+	user.ID = id
+	err := db.First(&user).Error
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
 
 func (repository *userRepository) Create(user models.User) (*models.User, error) {
-	return nil, nil
+	db := config.GetDB()
+	err := db.Create(&user).Error
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
 
 func (repository *userRepository) Update(user models.User) (*models.User, error) {

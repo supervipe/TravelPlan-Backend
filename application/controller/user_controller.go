@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"backend/core/domain/dto"
 	"backend/core/service"
 	"github.com/labstack/echo/v4"
 	"net/http"
@@ -8,6 +9,7 @@ import (
 
 type UserController interface {
 	GetUser(c echo.Context) error
+	CreateUser(c echo.Context) error
 }
 
 type userController struct {
@@ -28,4 +30,17 @@ func (controller *userController) GetUser(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, user)
+}
+
+func (controller *userController) CreateUser(c echo.Context) error {
+	user := new(dto.CreateUserDTO)
+	if err := c.Bind(user); err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+	userDTO, err := controller.userService.CreateUser(user)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+
+	return c.JSON(http.StatusOK, userDTO)
 }

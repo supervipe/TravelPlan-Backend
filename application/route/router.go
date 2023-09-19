@@ -17,4 +17,5 @@ func Router(e *echo.Echo) {
 	userService := service.UserServiceConstructor(userRepository)
 	userController := controller.UserControllerConstructor(userService)
 	e.GET("/users/:userId", userController.GetUser)
+	e.POST("/users", userController.CreateUser)
 }
