@@ -9,7 +9,7 @@ type UserRepository interface {
 	FindById(id uint) (*models.User, error)
 	Create(user models.User) (*models.User, error)
 	Update(user models.User) (*models.User, error)
-	Delete(id string) error
+	Delete(id uint) error
 }
 
 type userRepository struct {
@@ -40,9 +40,21 @@ func (repository *userRepository) Create(user models.User) (*models.User, error)
 }
 
 func (repository *userRepository) Update(user models.User) (*models.User, error) {
-	return nil, nil
+	db := config.GetDB()
+	err := db.Save(&user).Error
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
 
-func (repository *userRepository) Delete(id string) error {
+func (repository *userRepository) Delete(id uint) error {
+	db := config.GetDB()
+	user := models.User{}
+	user.ID = id
+	err := db.Delete(&user).Error
+	if err != nil {
+		return err
+	}
 	return nil
 }

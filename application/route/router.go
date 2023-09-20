@@ -18,4 +18,6 @@ func Router(e *echo.Echo) {
 	userController := controller.UserControllerConstructor(userService)
 	e.GET("/users/:userId", userController.GetUser)
 	e.POST("/users", userController.CreateUser)
+	e.PUT("/users/:userId", userController.UpdateUserPassword)
+	e.DELETE("/users/:userId", userController.DeleteUser)
 }
