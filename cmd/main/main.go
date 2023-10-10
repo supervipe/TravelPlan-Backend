@@ -1,17 +1,17 @@
 package main
 
 import (
-	"backend/application/config"
-	"backend/application/route"
+	"backend/api/config"
+	"backend/api/route"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
 	config.ConfEnv()
-	config.NewDB()
+	db := config.NewDB()
 
 	e := echo.New()
-	route.Router(e)
+	route.Router(e, db)
 
 	e.Logger.Fatal(e.Start(":" + config.GetPort()))
 }

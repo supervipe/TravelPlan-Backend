@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"backend/application/config"
-	"backend/core/domain/models"
+	"backend/domain/models"
+	"gorm.io/gorm"
 )
 
 type UserRepository interface {
@@ -13,17 +13,19 @@ type UserRepository interface {
 }
 
 type userRepository struct {
+	database *gorm.DB
 }
 
-func UserRepositoryConstructor() UserRepository {
-	return &userRepository{}
+func UserRepositoryConstructor(db *gorm.DB) UserRepository {
+	return &userRepository{
+		database: db,
+	}
 }
 
 func (repository *userRepository) FindById(id uint) (*models.User, error) {
-	db := config.GetDB()
 	user := models.User{}
 	user.ID = id
-	err := db.First(&user).Error
+	err := repository.database.First(&user).Error
 	if err != nil {
 		return nil, err
 	}
@@ -31,8 +33,7 @@ func (repository *userRepository) FindById(id uint) (*models.User, error) {
 }
 
 func (repository *userRepository) Create(user models.User) (*models.User, error) {
-	db := config.GetDB()
-	err := db.Create(&user).Error
+	err := repository.database.Create(&user).Error
 	if err != nil {
 		return nil, err
 	}
@@ -40,8 +41,7 @@ func (repository *userRepository) Create(user models.User) (*models.User, error)
 }
 
 func (repository *userRepository) Update(user models.User) (*models.User, error) {
-	db := config.GetDB()
-	err := db.Save(&user).Error
+	err := repository.database.Save(&user).Error
 	if err != nil {
 		return nil, err
 	}
@@ -49,10 +49,9 @@ func (repository *userRepository) Update(user models.User) (*models.User, error)
 }
 
 func (repository *userRepository) Delete(id uint) error {
-	db := config.GetDB()
 	user := models.User{}
 	user.ID = id
-	err := db.Delete(&user).Error
+	err := repository.database.Delete(&user).Error
 	if err != nil {
 		return err
 	}

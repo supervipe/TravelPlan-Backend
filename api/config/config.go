@@ -1,7 +1,7 @@
 package config
 
 import (
-	"backend/core/domain/models"
+	"backend/domain/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"log"

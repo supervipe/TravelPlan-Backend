@@ -1,8 +1,8 @@
 package service
 
 import (
-	"backend/core/domain/dto"
-	"backend/core/domain/models"
+	"backend/domain/dto"
+	"backend/domain/models"
 	"backend/infra/repository"
 	"errors"
 	"strconv"

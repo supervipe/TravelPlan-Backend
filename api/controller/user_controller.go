@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"backend/core/domain/dto"
-	"backend/core/service"
+	"backend/domain/dto"
+	"backend/service"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
